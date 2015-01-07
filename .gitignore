@@ -1,0 +1,7 @@
+*.mo
+*.py[cdo]
+*~
+.*.swp
+.swp
+MANIFEST
+py3k/

@@ -1,0 +1,43 @@
+Metadata-Version: 1.1
+Name: pyramid-sessions
+Version: 0.0.1
+Summary: Multiple session support for the Pyramid Web Framework
+Home-page: https://github.com/joulez/pyramid_sessions
+Author: Julian Paul Glass
+Author-email: joulez@magemx.com
+License: BSD
+Description: ===============================
+        Pyramid NSessions
+        ===============================
+        
+        Multiple session support for the Pyramid Web Framework
+        
+        * Free software: BSD license
+        
+        Features
+        --------
+        
+        * TODO
+        
+        
+        
+        
+        History
+        -------
+        
+        0.0.1 (2015-01-06)
+        ---------------------
+        Initial release
+        
+Keywords: pyramid_sessions
+Platform: UNKNOWN
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
