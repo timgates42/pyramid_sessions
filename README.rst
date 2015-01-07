@@ -1,5 +1,5 @@
 ===============================
-Pyramid NSessions
+Pyramid Sessions
 ===============================
 
 Multiple session support for the Pyramid Web Framework
