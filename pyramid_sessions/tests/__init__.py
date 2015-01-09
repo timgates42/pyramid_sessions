@@ -5,7 +5,7 @@ from pyramid.session import SignedCookieSessionFactory
 
 TEST_SESSIONS = ('session1', 'session2', 'session3', 'session4')
 
-def test_app(global_config, **settings):
+def main_test_app(global_config, **settings):
     """Test app for pyramid_sessions testing.
     """
     config = Configurator(settings=settings)
@@ -13,26 +13,26 @@ def test_app(global_config, **settings):
     config.add_route('sessions', '/{session}')
     config.add_route('set_sessions', '/set/{session}')
     config.add_route('get_sessions', '/get/{session}')
-    config.add_view(test_session, route_name='sessions')
-    config.add_view(test_set_session, route_name='set_sessions')
-    config.add_view(test_get_session, route_name='get_sessions')
+    config.add_view(view_test_session, route_name='sessions')
+    config.add_view(view_test_set_session, route_name='set_sessions')
+    config.add_view(view_test_get_session, route_name='get_sessions')
     for i in TEST_SESSIONS:
         config.add_session_factory(i,
             SignedCookieSessionFactory('secret', cookie_name=i))
     return config.make_wsgi_app()
 
-def test_session(request):
+def view_test_session(request):
     session_id = request.matchdict['session']
     session = request.sessions.get(session_id)
     return Response()
 
-def test_set_session(request):
+def view_test_set_session(request):
     session_id = request.matchdict['session']
     session = request.sessions.get(session_id)
     session['state'] = session_id
     return Response()
 
-def test_get_session(request):
+def view_test_get_session(request):
     session_id = request.matchdict['session']
     session = request.sessions.get(session_id)
     return Response(session['state'])

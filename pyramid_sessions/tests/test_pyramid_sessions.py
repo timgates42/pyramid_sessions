@@ -45,8 +45,8 @@ class Test_sessions(unittest.TestCase):
 
     def setUp(self):
         from webtest import TestApp
-        from pyramid_sessions.tests import test_app
-        self.test_app = TestApp(test_app({}))
+        from pyramid_sessions.tests import main_test_app
+        self.test_app = TestApp(main_test_app({}))
 
     def test_get_session(self):
         from pyramid_sessions.tests import TEST_SESSIONS
