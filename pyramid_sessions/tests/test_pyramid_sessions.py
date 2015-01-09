@@ -15,14 +15,13 @@ from pyramid.session import SignedCookieSessionFactory
 from pyramid.threadlocal import get_current_request
 
 class Test_config(unittest.TestCase):
-    def _makeOne(self, request, **kw):
+    def _makeOne(self, **kw):
         from pyramid.session import SignedCookieSessionFactory
         kw.setdefault('secret', 'secret')
-        return SignedCookieSessionFactory(**kw)(request)
+        return SignedCookieSessionFactory(**kw)
 
     def setUp(self):
         self.request = testing.DummyRequest()
-        #self.request = Request({})
         self.config = testing.setUp(request=self.request)
 
     def test_includeme(self):
@@ -30,18 +29,37 @@ class Test_config(unittest.TestCase):
 
     def test_add_session_factory(self):
         self.test_includeme()
-        session1 = 'session1'
-        session2 = 'session2'
-        sec = 'secret'
-        self.config.add_session_factory('session1', 
-                SignedCookieSessionFactory(sec, cookie_name='session1'))
-        self.config.add_session_factory('session2',
-                SignedCookieSessionFactory(sec, cookie_name='session2'))
+        from pyramid_sessions.tests import TEST_SESSIONS
+        for i in TEST_SESSIONS:
+            self.config.add_session_factory(i, self._makeOne(cookie_name=i))
+
+    def test_remove_session_factory(self):
+        from pyramid_sessions.tests import TEST_SESSIONS
+        from pyramid_sessions import ISessionManager
+        self.test_add_session_factory()
+        sm = self.config.registry.queryUtility(ISessionManager)
+        for i in TEST_SESSIONS:
+            sm.remove(i)
+
+    def test_default_session(self):
+        from pyramid_sessions import ISessionManager
+        self.test_includeme()
+        self.config.add_session_factory(id, self._makeOne(cookie_name=id),
+            default=True)
+        sm = self.config.registry.queryUtility(ISessionManager)
+        sm(self.request).get()
+
+    def test_invalid_default_session(self):
+        from pyramid_sessions import ISessionManager
+        self.test_includeme()
+        sm = self.config.registry.queryUtility(ISessionManager)
+        self.assertRaises(AttributeError, sm(self.request).get)
 
     def tearDown(self):
         testing.tearDown()
 
-class Test_sessions(unittest.TestCase):
+
+class Test_web_sessions(unittest.TestCase):
 
     def setUp(self):
         from webtest import TestApp
@@ -51,27 +69,29 @@ class Test_sessions(unittest.TestCase):
     def test_get_session(self):
         from pyramid_sessions.tests import TEST_SESSIONS
         for i in TEST_SESSIONS:
-            try:
-                self.test_app.get('/'+i, status=200)
-            except Exception as e:
-                raise self.failureException(e)
+            self.test_app.get('/'+i, status=200)
 
     def test_set_session_value(self):
         from pyramid_sessions.tests import TEST_SESSIONS
         for id in TEST_SESSIONS:
-            try:
-                self.test_app.get('/set/'+id, status=200)
-            except Exception as e:
-                raise self.failureException(e)
+            self.test_app.get('/set/'+id, status=200)
 
     def test_get_session_value(self):
         self.test_set_session_value()
         from pyramid_sessions.tests import TEST_SESSIONS
         for id in TEST_SESSIONS:
-            try:
-                res = self.test_app.get('/get/'+id, status=200)
-                self.assertEqual(res.body, id.encode())
-            except Exception as e:
-                raise self.failureException(e)
-        
+            res = self.test_app.get('/get/'+id, status=200)
+            self.assertEqual(res.body, id.encode())
+
+    def test_get_default_session(self):
+        id='default'
+        self.test_app.get('/set/'+id, status=200)
+        res = self.test_app.get('/get/'+id, status=200)
+        self.assertEqual(res.body, id.encode())
+
+    def test_get_invalid_session(self):
+        id='invalid'
+        self.assertRaises(KeyError, self.test_app.get, '/get/'+id, 
+            status=200)
+
 # vim:set ts=4 sts=4 sw=4 et tw=79:

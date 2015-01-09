@@ -12,8 +12,6 @@ class ISessionManager(Interface):
 def sessions(request, *args, **kwargs):
     """Fetch the SessionManager instance and attached the latest request."""
     sm = request.registry.queryUtility(ISessionManager)
-    if not sm:
-        raise Exception('Sesssion Manager not registered')
     return sm(request)
 
 def add_session_factory(config, name, factory, default=False):
