@@ -1,11 +1,11 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
+
+pkg_version = '0.1.0'
 
 
 readme = open('README.rst').read()
@@ -13,13 +13,11 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 requirements = open('requirements.txt').read()
 
-test_requirements = [
-    # TODO: put package test requirements here
-]
+testing_extras = open('test_requirements.txt').read()
 
 setup(
     name='pyramid_sessions',
-    version='0.0.1',
+    version=pkg_version,
     description='Multiple session support for the Pyramid Web Framework',
     long_description=readme + '\n\n' + history,
     author='Julian Paul Glass',
@@ -46,7 +44,12 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        "Framework :: Pyramid",
+        "Topic :: Internet :: WWW/HTTP",
+        "Topic :: Internet :: WWW/HTTP :: WSGI",
+        "License :: BSD",
     ],
-    test_suite='tests',
-    tests_require=test_requirements
-)
+    extras_require={
+        'testing': testing_extras },
+    test_suite='pyramid_sessions.tests',
+    tests_require=['WebTest'])

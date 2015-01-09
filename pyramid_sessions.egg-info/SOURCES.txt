@@ -14,5 +14,3 @@ pyramid_sessions.egg-info/dependency_links.txt
 pyramid_sessions.egg-info/not-zip-safe
 pyramid_sessions.egg-info/requires.txt
 pyramid_sessions.egg-info/top_level.txt
-tests/__init__.py
-tests/test_pyramid_nsessions.py

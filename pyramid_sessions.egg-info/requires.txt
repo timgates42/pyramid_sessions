@@ -1,2 +1,6 @@
 pyramid>=1.4
 zope.interface>=4
+
+[testing]
+nose
+coverage
