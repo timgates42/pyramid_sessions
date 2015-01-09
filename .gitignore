@@ -3,5 +3,6 @@
 *~
 .*.swp
 .swp
+.*.egg.*
 MANIFEST
 py3k/

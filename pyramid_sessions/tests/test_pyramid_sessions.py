@@ -74,6 +74,4 @@ class Test_sessions(unittest.TestCase):
             except Exception as e:
                 raise self.failureException(e)
         
-        
-        
 # vim:set ts=4 sts=4 sw=4 et tw=79:
