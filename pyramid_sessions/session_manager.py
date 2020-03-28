@@ -33,7 +33,7 @@ class SessionManager(object):
     def get(self, name=None):
         """
         Return session factory object if found. Returns the default session
-        if `name` is ommitted.
+        if `name` is omitted.
         """
         if not name:
             return self._init_factory(self.default_session)
